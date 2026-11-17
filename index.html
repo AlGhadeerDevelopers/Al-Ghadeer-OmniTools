@@ -1,0 +1,2408 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google" content="notranslate" />
+  <title>Al Ghadeer OmniTools — Free PDF, Image, File &amp; Web Toolkit</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <!-- FontAwesome 6 Vector Icons (Zero Emojis) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Client-Side Processing Libraries (Pinned CDN Versions) -->
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              emerald: '#034726',
+              emeraldLight: '#065f34',
+              emeraldDark: '#022c17',
+              gold: '#D4AF37',
+              goldLight: '#e6c65a',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .ltr-num {
+      direction: ltr;
+      unicode-bidi: isolate;
+    }
+    .tool-card {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-3px);
+    }
+    .drop-zone-active {
+      border-color: #034726 !important;
+      background-color: rgba(3, 71, 38, 0.06) !important;
+    }
+    .dark .drop-zone-active {
+      border-color: #D4AF37 !important;
+      background-color: rgba(212, 175, 55, 0.08) !important;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- Top Corporate Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <!-- Brand Logo & Name -->
+      <button type="button" id="navHomeBrandBtn" class="flex items-center gap-3 text-left focus:outline-none group">
+        <div class="w-10 h-10 rounded-xl bg-brand-emerald flex items-center justify-center border border-brand-gold/50 shadow-sm shrink-0">
+          <i class="fa-solid fa-layer-group text-brand-gold text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white">Al Ghadeer <span class="text-brand-emerald dark:text-brand-gold">OmniTools</span></span>
+            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 text-brand-emerald dark:bg-emerald-950/70 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">100% Client-Side</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">AL GHADEER DIGITAL SERVICES (SMC-PRIVATE) LIMITED</p>
+        </div>
+      </button>
+
+      <!-- Quick Category Navigation (Desktop) -->
+      <nav class="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/70">
+        <button type="button" data-cat-nav="all" class="cat-nav-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-white dark:bg-slate-900 text-brand-emerald dark:text-brand-gold shadow-sm">
+          <i class="fa-solid fa-grip mr-1.5"></i>All Tools (12)
+        </button>
+        <button type="button" data-cat-nav="pdf" class="cat-nav-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
+          <i class="fa-solid fa-file-pdf mr-1.5 text-rose-600 dark:text-rose-400"></i>PDF Suite
+        </button>
+        <button type="button" data-cat-nav="image" class="cat-nav-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
+          <i class="fa-solid fa-image mr-1.5 text-sky-600 dark:text-sky-400"></i>Image Studio
+        </button>
+        <button type="button" data-cat-nav="file" class="cat-nav-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
+          <i class="fa-solid fa-screwdriver-wrench mr-1.5 text-amber-600 dark:text-amber-400"></i>File &amp; Web Tools
+        </button>
+      </nav>
+
+      <!-- Right Controls: Session Activity & Theme Toggle -->
+      <div class="flex items-center gap-2">
+        <button type="button" id="openDeployGuideBtn" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors">
+          <i class="fa-solid fa-cloud-arrow-up text-brand-emerald dark:text-brand-gold"></i>
+          <span>Vercel Ready</span>
+        </button>
+        <button type="button" id="themeToggleBtn" class="w-9 h-9 rounded-lg flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors" title="Toggle Light/Dark Theme">
+          <i id="themeIcon" class="fa-solid fa-moon text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- ==================== VIEW 1: DIRECTORY DASHBOARD ==================== -->
+    <section id="dashboardView" class="space-y-8">
+
+      <!-- Hero Banner -->
+      <div class="relative rounded-2xl bg-gradient-to-br from-brand-emeraldDark via-brand-emerald to-emerald-900 text-white p-6 sm:p-10 shadow-lg border border-brand-gold/30 overflow-hidden">
+        <div class="relative z-10 max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-brand-gold/40 text-brand-gold text-xs font-bold tracking-wide uppercase">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Zero Server Uploads &bull; 100% Browser Processing</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            Every PDF, Image &amp; File Utility You Need — <span class="text-brand-gold">In One Fast Workspace.</span>
+          </h1>
+          <p class="text-sm sm:text-base text-emerald-100/90 leading-relaxed max-w-2xl">
+            Merge, split, watermark, and convert PDFs; compress, resize, and scan-enhance images; or convert CSV/JSON, pack ZIP archives, and generate QR codes directly in your browser.
+          </p>
+
+          <!-- Search & Filter Bar -->
+          <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-2xl">
+            <div class="relative flex-1">
+              <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input
+                type="text"
+                id="toolSearchInput"
+                placeholder="Search tools (e.g. Merge PDF, Compress Image, Scan B&W, QR, ZIP, CSV)..."
+                class="w-full pl-10 pr-10 py-3 rounded-xl bg-white text-slate-900 placeholder-slate-400 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-gold shadow-sm"
+              />
+              <button type="button" id="clearSearchBtn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Session Telemetry Box (Starts strictly at 0) -->
+        <div class="mt-6 lg:mt-0 lg:Verify lg:absolute lg:right-8 lg:top-1/2 lg:-translate-y-1/2 bg-slate-950/45 backdrop-blur-md border border-white/15 rounded-xl p-4 sm:p-5 w-full lg:w-72 space-y-3">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold flex items-center gap-1.5">
+              <i class="fa-solid fa-chart-simple"></i> Live Session Stats
+            </span>
+            <button type="button" id="resetStatsBtn" class="text-[11px] text-emerald-200 hover:text-white underline">Reset</button>
+          </div>
+          <div class="grid grid-cols-3 lg:grid-cols-1 gap-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-emerald-100/80">Files Processed</span>
+              <span id="statFilesProcessed" class="font-mono font-bold text-sm text-white ltr-num" dir="ltr">0</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-emerald-100/80">Downloads Created</span>
+              <span id="statDownloadsCreated" class="font-mono font-bold text-sm text-brand-gold ltr-num" dir="ltr">0</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-emerald-100/80">Size Saved</span>
+              <span id="statBytesSaved" class="font-mono font-bold text-sm text-emerald-300 ltr-num" dir="ltr">0 KB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Category Filter Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1">
+        <button type="button" data-cat-pill="all" class="cat-pill-btn px-4 py-2 rounded-xl text-xs font-bold bg-brand-emerald text-white shadow-sm shrink-0">
+          <i class="fa-solid fa-grip mr-1.5"></i>All Tools (12)
+        </button>
+        <button type="button" data-cat-pill="pdf" class="cat-pill-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shrink-0">
+          <i class="fa-solid fa-file-pdf text-rose-600 mr-1.5"></i>PDF Tools (4)
+        </button>
+        <button type="button" data-cat-pill="image" class="cat-pill-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shrink-0">
+          <i class="fa-solid fa-image text-sky-600 mr-1.5"></i>Image Studio (4)
+        </button>
+        <button type="button" data-cat-pill="file" class="cat-pill-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shrink-0">
+          <i class="fa-solid fa-screwdriver-wrench text-amber-600 mr-1.5"></i>File, Data &amp; Web (4)
+        </button>
+      </div>
+
+      <!-- Tool Cards Grid -->
+      <div id="toolsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+        <!-- Populated dynamically from TOOLS_CATALOG -->
+      </div>
+
+      <!-- Empty Search State -->
+      <div id="emptySearchState" class="hidden bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-10 text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 mx-auto flex items-center justify-center text-slate-400">
+          <i class="fa-solid fa-magnifying-glass text-lg"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">No matching tool found</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">Try searching for PDF, Merge, Split, Compress, Resize, Scan, CSV, JSON, QR, or ZIP.</p>
+        <button type="button" id="resetFilterBtn" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-emerald text-white hover:bg-brand-emeraldLight transition-colors">
+          Show All 12 Tools
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: ACTIVE TOOL WORKSPACE ==================== -->
+    <section id="workspaceView" class="hidden space-y-6">
+      <!-- Top Breadcrumb & Back Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-slate-900 px-4 sm:px-6 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="flex items-center gap-3">
+          <button type="button" id="backToDashboardBtn" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>All Tools</span>
+          </button>
+          <div class="h-5 w-px bg-slate-200 dark:bg-slate-700"></div>
+          <div class="flex items-center gap-2.5">
+            <div id="activeToolIconBox" class="w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm shadow-sm"></div>
+            <div>
+              <h2 id="activeToolTitle" class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">Tool Title</h2>
+              <p id="activeToolSubtitle" class="text-xs text-slate-500 dark:text-slate-400">Tool description</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button type="button" id="loadSampleBtn" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:hover:bg-amber-900/70 dark:text-amber-300 border border-amber-200 dark:border-amber-800 transition-colors">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Load Instant Test Sample</span>
+          </button>
+          <button type="button" id="resetToolWorkspaceBtn" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Clear</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Dynamic Workspace Body -->
+      <div id="toolWorkspaceBody" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-8">
+        <!-- Injected per active tool -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Vercel Deployment Modal -->
+  <div id="deployModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 bg-brand-emerald text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <i class="fa-solid fa-cloud-arrow-up text-brand-gold text-lg"></i>
+          <h3 class="font-bold text-base">Deploy to Vercel / Netlify / GitHub Pages</h3>
+        </div>
+        <button type="button" id="closeDeployModalBtn" class="text-white/80 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="p-6 space-y-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+        <p class="font-medium text-slate-800 dark:text-slate-100">
+          This entire application is built as a <strong>zero-dependency single HTML5 file</strong> with 100% client-side processing (zero backend cost).
+        </p>
+        <div class="space-y-2.5 bg-slate-50 dark:bg-slate-800/70 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+          <div class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-brand-emerald text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5" dir="ltr">1</span>
+            <span>Save this file as <code class="font-mono font-bold text-brand-emerald dark:text-brand-gold">index.html</code> inside a new folder.</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-brand-emerald text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5" dir="ltr">2</span>
+            <span>Log in to your <strong>Vercel Hobby Account</strong> or <strong>GitHub</strong>, upload the folder, and deploy immediately with zero build command required.</span>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-brand-emerald text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5" dir="ltr">3</span>
+            <span>All 12 PDF, Image, and File tools run directly on the visitor's browser, so your server bandwidth and CPU cost stays at <strong>0 PKR</strong> even with thousands of daily visitors.</span>
+          </div>
+        </div>
+        <div class="flex justify-end pt-2">
+          <button type="button" id="ackDeployModalBtn" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-brand-emerald text-white hover:bg-brand-emeraldLight transition-colors">
+            Got It
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+        <span class="font-bold text-slate-700 dark:text-slate-200">AL GHADEER DIGITAL SERVICES (SMC-PRIVATE) LIMITED</span>
+        <span>&bull; Multan Road, Near THQ Hospital, Chowk Azam</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span><i class="fa-solid fa-lock text-brand-emerald dark:text-brand-gold mr-1"></i>Files never leave your device</span>
+        <span class="ltr-num" dir="ltr">v1.0 Enterprise Edition</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== APPLICATION LOGIC ==================== -->
+  <script>
+    // =========================================================================
+    // 1. CATALOG OF 12 REAL CLIENT-SIDE TOOLS
+    // =========================================================================
+    const TOOLS_CATALOG = [
+      {
+        id: 'pdf-merge',
+        category: 'pdf',
+        badge: 'PDF Suite',
+        title: 'Merge PDF',
+        subtitle: 'Combine multiple PDF documents into a single ordered PDF file.',
+        icon: 'fa-solid fa-object-group',
+        colorClass: 'bg-rose-600',
+        lightBgClass: 'bg-rose-50 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400',
+        keywords: 'merge pdf combine join binder ilovepdf'
+      },
+      {
+        id: 'pdf-split',
+        category: 'pdf',
+        badge: 'PDF Suite',
+        title: 'Split & Extract PDF',
+        subtitle: 'Extract specific page ranges or split every page into a ZIP archive.',
+        icon: 'fa-solid fa-scissors',
+        colorClass: 'bg-red-600',
+        lightBgClass: 'bg-red-50 text-red-600 dark:bg-red-950/60 dark:text-red-400',
+        keywords: 'split pdf extract pages separate range'
+      },
+      {
+        id: 'img-to-pdf',
+        category: 'pdf',
+        badge: 'PDF Suite',
+        title: 'Images to PDF',
+        subtitle: 'Convert JPG, PNG & WebP photos into a clean A4 or custom PDF document.',
+        icon: 'fa-solid fa-file-pdf',
+        colorClass: 'bg-orange-600',
+        lightBgClass: 'bg-orange-50 text-orange-600 dark:bg-orange-950/60 dark:text-orange-400',
+        keywords: 'jpg to pdf png to pdf images photos convert a4'
+      },
+      {
+        id: 'pdf-watermark',
+        category: 'pdf',
+        badge: 'PDF Suite',
+        title: 'Stamp & Number PDF',
+        subtitle: 'Add custom diagonal text watermarks and automatic Page X of Y footers.',
+        icon: 'fa-solid fa-stamp',
+        colorClass: 'bg-pink-600',
+        lightBgClass: 'bg-pink-50 text-pink-600 dark:bg-pink-950/60 dark:text-pink-400',
+        keywords: 'watermark pdf stamp page numbers confidential'
+      },
+      {
+        id: 'img-compress',
+        category: 'image',
+        badge: 'Image Studio',
+        title: 'Image Compressor',
+        subtitle: 'Reduce JPG, PNG & WebP file size up to 85% with live quality preview.',
+        icon: 'fa-solid fa-compress',
+        colorClass: 'bg-sky-600',
+        lightBgClass: 'bg-sky-50 text-sky-600 dark:bg-sky-950/60 dark:text-sky-400',
+        keywords: 'compress image reduce size kb mb optimizer tinywow'
+      },
+      {
+        id: 'img-convert',
+        category: 'image',
+        badge: 'Image Studio',
+        title: 'Image Format Converter',
+        subtitle: 'Instantly convert images between PNG, JPEG, and WebP formats.',
+        icon: 'fa-solid fa-arrows-rotate',
+        colorClass: 'bg-blue-600',
+        lightBgClass: 'bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400',
+        keywords: 'webp to png png to jpg convert image format'
+      },
+      {
+        id: 'img-resize',
+        category: 'image',
+        badge: 'Image Studio',
+        title: 'Resize & Passport Presets',
+        subtitle: 'Resize by exact pixels or 1-click Passport, CNIC, and HD presets.',
+        icon: 'fa-solid fa-crop-simple',
+        colorClass: 'bg-indigo-600',
+        lightBgClass: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400',
+        keywords: 'resize image dimensions passport photo cnic pixel'
+      },
+      {
+        id: 'img-docscan',
+        category: 'image',
+        badge: 'Image Studio',
+        title: 'DocScan B&W Enhancer',
+        subtitle: 'Clean dark WhatsApp document photos into crisp black-and-white scans.',
+        icon: 'fa-solid fa-wand-magic-sparkles',
+        colorClass: 'bg-teal-600',
+        lightBgClass: 'bg-teal-50 text-teal-600 dark:bg-teal-950/60 dark:text-teal-400',
+        keywords: 'scanner document b&w photocopy whatsapp cnic clean threshold'
+      },
+      {
+        id: 'qr-studio',
+        category: 'file',
+        badge: 'File & Web',
+        title: 'QR Code & vCard Studio',
+        subtitle: 'Generate custom colored QR codes for URLs, WhatsApp, Wi-Fi & Contact cards.',
+        icon: 'fa-solid fa-qrcode',
+        colorClass: 'bg-emerald-700',
+        lightBgClass: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400',
+        keywords: 'qr code generator whatsapp wifi vcard barcode'
+      },
+      {
+        id: 'csv-json',
+        category: 'file',
+        badge: 'File & Web',
+        title: 'CSV <-> JSON Converter',
+        subtitle: 'Convert spreadsheet CSV data to JSON or JSON arrays into CSV tables.',
+        icon: 'fa-solid fa-table',
+        colorClass: 'bg-amber-600',
+        lightBgClass: 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400',
+        keywords: 'csv to json json to csv excel data table converter'
+      },
+      {
+        id: 'zip-tool',
+        category: 'file',
+        badge: 'File & Web',
+        title: 'ZIP Pack & Extractor',
+        subtitle: 'Bundle multiple files into a single ZIP archive or unpack existing ZIPs.',
+        icon: 'fa-solid fa-file-zipper',
+        colorClass: 'bg-purple-600',
+        lightBgClass: 'bg-purple-50 text-purple-600 dark:bg-purple-950/60 dark:text-purple-400',
+        keywords: 'zip archive compress unpack extract files'
+      },
+      {
+        id: 'text-studio',
+        category: 'file',
+        badge: 'File & Web',
+        title: 'Text, Hash & Password Pro',
+        subtitle: 'Word counter, case converter, duplicate line cleaner, SHA-256 & password tool.',
+        icon: 'fa-solid fa-font',
+        colorClass: 'bg-slate-700',
+        lightBgClass: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
+        keywords: 'word count case converter sha256 password generator text'
+      }
+    ];
+
+    // =========================================================================
+    // 2. APPLICATION STATE & TELEMETRY (Strictly starts at 0)
+    // =========================================================================
+    const appState = {
+      currentCategory: 'all',
+      searchQuery: '',
+      activeToolId: null,
+      darkMode: false,
+      stats: {
+        filesProcessed: 0,
+        downloadsCreated: 0,
+        bytesSaved: 0
+      },
+      // Tool-specific working states
+      pdfMergeList: [],
+      pdfSplitFile: null,
+      pdfSplitPageCount: 0,
+      imgToPdfList: [],
+      pdfWatermarkFile: null,
+      pdfWatermarkPageCount: 0,
+      compressOriginalFile: null,
+      compressOriginalImg: null,
+      compressResultBlob: null,
+      convertOriginalFile: null,
+      convertOriginalImg: null,
+      resizeOriginalFile: null,
+      resizeOriginalImg: null,
+      docscanOriginalFile: null,
+      docscanOriginalImg: null,
+      zipCreateList: [],
+      zipExtractItems: []
+    };
+
+    function loadSavedStats() {
+      try {
+        const raw = localStorage.getItem('ag_omnitools_stats_v1');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appState.stats.filesProcessed = Number(parsed.filesProcessed) || 0;
+          appState.stats.downloadsCreated = Number(parsed.downloadsCreated) || 0;
+          appState.stats.bytesSaved = Number(parsed.bytesSaved) || 0;
+        }
+        const savedTheme = localStorage.getItem('ag_omnitools_theme');
+        if (savedTheme === 'dark') {
+          appState.darkMode = true;
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {
+        // Ignore storage errors in sandboxed iframes
+      }
+      renderStatsUI();
+      updateThemeIcon();
+    }
+
+    function saveStats() {
+      try {
+        localStorage.setItem('ag_omnitools_stats_v1', JSON.stringify(appState.stats));
+      } catch (e) {}
+      renderStatsUI();
+    }
+
+    function incrementStats(filesDelta, downloadsDelta, bytesSavedDelta) {
+      appState.stats.filesProcessed += (filesDelta || 0);
+      appState.stats.downloadsCreated += (downloadsDelta || 0);
+      appState.stats.bytesSaved += Math.max(0, bytesSavedDelta || 0);
+      saveStats();
+    }
+
+    function formatBytes(bytes) {
+      if (!bytes || bytes <= 0) return '0 KB';
+      const kb = bytes / 1024;
+      if (kb < 1024) return kb.toFixed(1) + ' KB';
+      return (kb / 1024).toFixed(2) + ' MB';
+    }
+
+    function renderStatsUI() {
+      const fp = document.getElementById('statFilesProcessed');
+      const dc = document.getElementById('statDownloadsCreated');
+      const bs = document.getElementById('statBytesSaved');
+      if (fp) fp.textContent = String(appState.stats.filesProcessed);
+      if (dc) dc.textContent = String(appState.stats.downloadsCreated);
+      if (bs) bs.textContent = formatBytes(appState.stats.bytesSaved);
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const toast = document.createElement('div');
+      const bgClass = type === 'error'
+        ? 'bg-rose-600 text-white'
+        : type === 'info'
+        ? 'bg-slate-800 text-white'
+        : 'bg-brand-emerald text-white border border-brand-gold/40';
+      const iconClass = type === 'error'
+        ? 'fa-circle-exclamation'
+        : type === 'info'
+        ? 'fa-circle-info'
+        : 'fa-circle-check text-brand-gold';
+
+      toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-xs font-semibold transition-all duration-200 ${bgClass}`;
+      toast.innerHTML = `
+        <i class="fa-solid ${iconClass} text-sm shrink-0"></i>
+        <span class="flex-1">${message}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 220);
+      }, 3200);
+    }
+
+    function triggerBlobDownload(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 400);
+    }
+
+    // =========================================================================
+    // 3. DASHBOARD GRID & FILTERING
+    // =========================================================================
+    function renderToolsGrid() {
+      const grid = document.getElementById('toolsGrid');
+      const emptyState = document.getElementById('emptySearchState');
+      if (!grid) return;
+
+      const q = appState.searchQuery.trim().toLowerCase();
+      const filtered = TOOLS_CATALOG.filter(tool => {
+        const matchesCat = appState.currentCategory === 'all' || tool.category === appState.currentCategory;
+        const matchesQuery = !q ||
+          tool.title.toLowerCase().includes(q) ||
+          tool.subtitle.toLowerCase().includes(q) ||
+          tool.keywords.toLowerCase().includes(q);
+        return matchesCat && matchesQuery;
+      });
+
+      grid.innerHTML = '';
+      if (filtered.length === 0) {
+        grid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      grid.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+
+      filtered.forEach(tool => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'tool-card group text-left bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 hover:border-brand-emerald dark:hover:border-brand-gold shadow-sm hover:shadow-md flex flex-col justify-between gap-4 focus:outline-none';
+        card.innerHTML = `
+          <div class="space-y-3.5 w-full">
+            <div class="flex items-center justify-between gap-2">
+              <div class="w-11 h-11 rounded-xl ${tool.lightBgClass} flex items-center justify-center text-lg shadow-inner">
+                <i class="${tool.icon}"></i>
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                ${tool.badge}
+              </span>
+            </div>
+            <div>
+              <h3 class="text-base font-extrabold text-slate-900 dark:text-white group-hover:text-brand-emerald dark:group-hover:text-brand-gold transition-colors">
+                ${tool.title}
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                ${tool.subtitle}
+              </p>
+            </div>
+          </div>
+          <div class="w-full pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-brand-emerald dark:text-brand-gold">
+            <span>Launch Tool</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+          </div>
+        `;
+        card.addEventListener('click', () => openToolWorkspace(tool.id));
+        grid.appendChild(card);
+      });
+    }
+
+    function setCategoryFilter(cat) {
+      appState.currentCategory = cat;
+      // Update top nav buttons
+      document.querySelectorAll('.cat-nav-btn').forEach(btn => {
+        const isMatch = btn.getAttribute('data-cat-nav') === cat;
+        btn.className = isMatch
+          ? 'cat-nav-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-white dark:bg-slate-900 text-brand-emerald dark:text-brand-gold shadow-sm'
+          : 'cat-nav-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all';
+      });
+      // Update pill buttons
+      document.querySelectorAll('.cat-pill-btn').forEach(btn => {
+        const isMatch = btn.getAttribute('data-cat-pill') === cat;
+        btn.className = isMatch
+          ? 'cat-pill-btn px-4 py-2 rounded-xl text-xs font-bold bg-brand-emerald text-white shadow-sm shrink-0'
+          : 'cat-pill-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shrink-0';
+      });
+      if (appState.activeToolId) {
+        returnToDashboard();
+      }
+      renderToolsGrid();
+    }
+
+    function returnToDashboard() {
+      appState.activeToolId = null;
+      document.getElementById('workspaceView').classList.add('hidden');
+      document.getElementById('dashboardView').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // =========================================================================
+    // 4. SAMPLE GENERATORS (FOR 1-CLICK INSTANT TESTING)
+    // =========================================================================
+    async function createSamplePdfBytes(titleText, pageCount = 2) {
+      const { PDFDocument, StandardFonts, rgb } = PDFLib;
+      const pdfDoc = await PDFDocument.create();
+      const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+      const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+      for (let i = 1; i <= pageCount; i++) {
+        const page = pdfDoc.addPage([595.28, 841.89]); // A4
+        const { width, height } = page.getSize();
+
+        // Header bar
+        page.drawRectangle({
+          x: 40,
+          y: height - 95,
+          width: width - 80,
+          height: 55,
+          color: rgb(0.012, 0.278, 0.149)
+        });
+        page.drawText('AL GHADEER DIGITAL SERVICES (SMC-PRIVATE) LIMITED', {
+          x: 55,
+          y: height - 65,
+          size: 13,
+          font: fontBold,
+          color: rgb(0.831, 0.686, 0.216)
+        });
+        page.drawText('Sample PDF Document — Ready for Client-Side Processing', {
+          x: 55,
+          y: height - 82,
+          size: 9.5,
+          font: fontRegular,
+          color: rgb(1, 1, 1)
+        });
+
+        page.drawText(`${titleText} — Page ${i} of ${pageCount}`, {
+          x: 45,
+          y: height - 145,
+          size: 18,
+          font: fontBold,
+          color: rgb(0.08, 0.12, 0.18)
+        });
+
+        const lines = [
+          'This sample PDF page was generated directly inside your browser using PDFLib.',
+          'You can test merging, splitting, page range extraction, or diagonal watermarking.',
+          `Document Title: ${titleText}`,
+          `Page Index: ${i} / ${pageCount}`,
+          'Location: Multan Road, Near THQ Level Hospital, Chowk Azam, District Layyah.'
+        ];
+        lines.forEach((line, idx) => {
+          page.drawText(line, {
+            x: 45,
+            y: height - 190 - (idx * 24),
+            size: 11,
+            font: fontRegular,
+            color: rgb(0.25, 0.3, 0.36)
+          });
+        });
+      }
+      return await pdfDoc.save();
+    }
+
+    function createSampleCanvasImageDataUrl(label = 'AL GHADEER SAMPLE DOCUMENT', isShadowyDoc = false) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 900;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+
+      if (isShadowyDoc) {
+        // Simulate an uneven, slightly gray/shadowy mobile camera document photo
+        const grad = ctx.createLinearGradient(0, 0, 900, 600);
+        grad.addColorStop(0, '#d6d3cd');
+        grad.addColorStop(0.5, '#b8b4ac');
+        grad.addColorStop(1, '#8c8881');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 900, 600);
+
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(45, 45, 810, 510);
+
+        ctx.fillStyle = '#1e293b';
+        ctx.font = 'bold 30px sans-serif';
+        ctx.fillText('OFFICIAL VERIFICATION CERTIFICATE', 90, 120);
+        ctx.font = '20px monospace';
+        ctx.fillText('Ref ID: AGDS-2026-88412 | Issued: Chowk Azam, Layyah', 90, 170);
+        ctx.font = '21px sans-serif';
+        ctx.fillText('This simulated shadowy phone camera photo demonstrates how', 90, 240);
+        ctx.fillText('DocScan B&W Enhancer removes dark gray background shadows', 90, 280);
+        ctx.fillText('and produces a crisp, pure-white laser-printable image.', 90, 320);
+        ctx.font = 'bold 24px sans-serif';
+        ctx.fillText('Authorized Signatory — Al Ghadeer Digital Services', 90, 440);
+      } else {
+        const grad = ctx.createLinearGradient(0, 0, 900, 600);
+        grad.addColorStop(0, '#034726');
+        grad.addColorStop(1, '#065f34');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 900, 600);
+
+        ctx.strokeStyle = '#D4AF37';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(35, 35, 830, 530);
+
+        ctx.fillStyle = '#D4AF37';
+        ctx.font = 'bold 34px sans-serif';
+        ctx.fillText(label, 80, 140);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '22px sans-serif';
+        ctx.fillText('High-Resolution Test Canvas (900 x 600 px)', 80, 200);
+        ctx.fillText('Use this sample to test Compression, Format Conversion, or Resizing.', 80, 250);
+
+        // Decorative geometric circles
+        ctx.fillStyle = 'rgba(212, 175, 55, 0.22)';
+        ctx.beginPath();
+        ctx.arc(730, 420, 95, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      return canvas.toDataURL('image/png');
+    }
+
+    function dataURLtoFile(dataurl, filename) {
+      const arr = dataurl.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
+    }
+
+    // =========================================================================
+    // 5. TOOL WORKSPACE ROUTER & RENDERERS
+    // =========================================================================
+    function openToolWorkspace(toolId) {
+      const tool = TOOLS_CATALOG.find(t => t.id === toolId);
+      if (!tool) return;
+      appState.activeToolId = toolId;
+
+      document.getElementById('dashboardView').classList.add('hidden');
+      document.getElementById('workspaceView').classList.remove('hidden');
+
+      const iconBox = document.getElementById('activeToolIconBox');
+      iconBox.className = `w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm shadow-sm ${tool.colorClass}`;
+      iconBox.innerHTML = `<i class="${tool.icon}"></i>`;
+
+      document.getElementById('activeToolTitle').textContent = tool.title;
+      document.getElementById('activeToolSubtitle').textContent = tool.subtitle;
+
+      renderActiveToolBody(toolId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderActiveToolBody(toolId) {
+      const container = document.getElementById('toolWorkspaceBody');
+      if (!container) return;
+
+      switch (toolId) {
+        case 'pdf-merge':
+          renderPdfMergeWorkspace(container);
+          break;
+        case 'pdf-split':
+          renderPdfSplitWorkspace(container);
+          break;
+        case 'img-to-pdf':
+          renderImgToPdfWorkspace(container);
+          break;
+        case 'pdf-watermark':
+          renderPdfWatermarkWorkspace(container);
+          break;
+        case 'img-compress':
+          renderImgCompressWorkspace(container);
+          break;
+        case 'img-convert':
+          renderImgConvertWorkspace(container);
+          break;
+        case 'img-resize':
+          renderImgResizeWorkspace(container);
+          break;
+        case 'img-docscan':
+          renderImgDocScanWorkspace(container);
+          break;
+        case 'qr-studio':
+          renderQrStudioWorkspace(container);
+          break;
+        case 'csv-json':
+          renderCsvJsonWorkspace(container);
+          break;
+        case 'zip-tool':
+          renderZipToolWorkspace(container);
+          break;
+        case 'text-studio':
+          renderTextStudioWorkspace(container);
+          break;
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 1: MERGE PDF
+    // -------------------------------------------------------------------------
+    function renderPdfMergeWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div id="pdfMergeDropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center hover:border-brand-emerald dark:hover:border-brand-gold transition-colors cursor-pointer bg-slate-50/60 dark:bg-slate-800/40">
+            <input type="file" id="pdfMergeInput" accept="application/pdf" multiple class="hidden" />
+            <div class="w-14 h-14 rounded-2xl bg-rose-100 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-file-circle-plus"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Drop PDF files here or click to browse</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Select 2 or more PDF files, reorder them below, and merge into a single document.</p>
+          </div>
+
+          <div id="pdfMergeQueueSection" class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                Files in Merge Queue (<span id="pdfMergeCount" class="ltr-num" dir="ltr">0</span>)
+              </h4>
+              <button type="button" id="pdfMergeExecBtn" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white shadow-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+                <i class="fa-solid fa-object-group mr-1.5"></i>Merge &amp; Download PDF
+              </button>
+            </div>
+            <div id="pdfMergeListContainer" class="space-y-2.5"></div>
+          </div>
+        </div>
+      `;
+
+      const dropZone = document.getElementById('pdfMergeDropZone');
+      const fileInput = document.getElementById('pdfMergeInput');
+      dropZone.addEventListener('click', () => fileInput.click());
+      setupDragAndDrop(dropZone, files => addPdfFilesToMergeQueue(files));
+      fileInput.addEventListener('change', e => addPdfFilesToMergeQueue(e.target.files));
+
+      document.getElementById('pdfMergeExecBtn').addEventListener('click', executePdfMerge);
+      updatePdfMergeListUI();
+    }
+
+    async function addPdfFilesToMergeQueue(fileList) {
+      if (!fileList || fileList.length === 0) return;
+      for (const file of Array.from(fileList)) {
+        if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+          showToast(`Skipped "${file.name}" (Not a PDF file)`, 'error');
+          continue;
+        }
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+          const pages = pdfDoc.getPageCount();
+          appState.pdfMergeList.push({
+            id: 'pdf_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+            name: file.name,
+            size: file.size,
+            pages,
+            bytes: arrayBuffer
+          });
+          incrementStats(1, 0, 0);
+        } catch (err) {
+          showToast(`Could not read "${file.name}"`, 'error');
+        }
+      }
+      updatePdfMergeListUI();
+    }
+
+    function updatePdfMergeListUI() {
+      const listEl = document.getElementById('pdfMergeListContainer');
+      const countEl = document.getElementById('pdfMergeCount');
+      const execBtn = document.getElementById('pdfMergeExecBtn');
+      if (!listEl) return;
+
+      countEl.textContent = String(appState.pdfMergeList.length);
+      execBtn.disabled = appState.pdfMergeList.length < 2;
+
+      if (appState.pdfMergeList.length === 0) {
+        listEl.innerHTML = `
+          <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400">
+            Queue is empty. Upload at least 2 PDFs or click <strong>"Load Instant Test Sample"</strong> above.
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = '';
+      appState.pdfMergeList.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700';
+        row.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="w-6 h-6 rounded-lg bg-rose-600 text-white text-xs font-bold flex items-center justify-center shrink-0 ltr-num" dir="ltr">${idx + 1}</span>
+            <div class="min-w-0">
+              <p class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 truncate">${item.name}</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 ltr-num" dir="ltr">${item.pages} page(s) &bull; ${formatBytes(item.size)}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button type="button" data-move-up="${idx}" class="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-emerald disabled:opacity-30" ${idx === 0 ? 'disabled' : ''} title="Move Up">
+              <i class="fa-solid fa-arrow-up text-xs"></i>
+            </button>
+            <button type="button" data-move-down="${idx}" class="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-emerald disabled:opacity-30" ${idx === appState.pdfMergeList.length - 1 ? 'disabled' : ''} title="Move Down">
+              <i class="fa-solid fa-arrow-down text-xs"></i>
+            </button>
+            <button type="button" data-remove-idx="${idx}" class="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-rose-600 hover:bg-rose-50" title="Remove">
+              <i class="fa-solid fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        `;
+        listEl.appendChild(row);
+      });
+
+      listEl.querySelectorAll('[data-move-up]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = Number(btn.getAttribute('data-move-up'));
+          if (i > 0) {
+            const temp = appState.pdfMergeList[i - 1];
+            appState.pdfMergeList[i - 1] = appState.pdfMergeList[i];
+            appState.pdfMergeList[i] = temp;
+            updatePdfMergeListUI();
+          }
+        });
+      });
+
+      listEl.querySelectorAll('[data-move-down]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = Number(btn.getAttribute('data-move-down'));
+          if (i < appState.pdfMergeList.length - 1) {
+            const temp = appState.pdfMergeList[i + 1];
+            appState.pdfMergeList[i + 1] = appState.pdfMergeList[i];
+            appState.pdfMergeList[i] = temp;
+            updatePdfMergeListUI();
+          }
+        });
+      });
+
+      listEl.querySelectorAll('[data-remove-idx]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = Number(btn.getAttribute('data-remove-idx'));
+          appState.pdfMergeList.splice(i, 1);
+          updatePdfMergeListUI();
+        });
+      });
+    }
+
+    async function executePdfMerge() {
+      if (appState.pdfMergeList.length < 2) return;
+      try {
+        const mergedPdf = await PDFLib.PDFDocument.create();
+        for (const item of appState.pdfMergeList) {
+          const srcDoc = await PDFLib.PDFDocument.load(item.bytes);
+          const copiedPages = await mergedPdf.copyPages(srcDoc, srcDoc.getPageIndices());
+          copiedPages.forEach(p => mergedPdf.addPage(p));
+        }
+        const mergedBytes = await mergedPdf.save();
+        const blob = new Blob([mergedBytes], { type: 'application/pdf' });
+        triggerBlobDownload(blob, `AlGhadeer_Merged_${Date.now()}.pdf`);
+        incrementStats(0, 1, 0);
+        showToast(`Successfully merged ${appState.pdfMergeList.length} PDFs!`);
+      } catch (err) {
+        showToast('Error merging PDFs: ' + err.message, 'error');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 2: SPLIT & EXTRACT PDF
+    // -------------------------------------------------------------------------
+    function renderPdfSplitWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div id="pdfSplitDropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center hover:border-brand-emerald dark:hover:border-brand-gold transition-colors cursor-pointer bg-slate-50/60 dark:bg-slate-800/40">
+            <input type="file" id="pdfSplitInput" accept="application/pdf" class="hidden" />
+            <div class="w-14 h-14 rounded-2xl bg-red-100 dark:bg-red-950/80 text-red-600 dark:text-red-400 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-scissors"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Select a PDF file to split or extract pages</h3>
+            <p id="pdfSplitFileStatus" class="text-xs text-slate-500 dark:text-slate-400 mt-1">No PDF loaded yet.</p>
+          </div>
+
+          <div id="pdfSplitControls" class="hidden grid grid-cols-1 md:grid-cols-2 gap-5 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <div class="space-y-3">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Page Range to Extract</label>
+              <input type="text" id="pdfSplitRangeInput" value="1-2" placeholder="e.g. 1-2, 4" class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm font-mono ltr-num" dir="ltr" />
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Enter page numbers or ranges separated by commas (total pages: <strong id="pdfSplitTotalPages" class="ltr-num" dir="ltr">0</strong>).</p>
+              <button type="button" id="pdfExtractRangeBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors">
+                <i class="fa-solid fa-file-export mr-1.5"></i>Extract Selected Pages as PDF
+              </button>
+            </div>
+
+            <div class="space-y-3 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-700 pt-4 md:pt-0 md:pl-5 flex flex-col justify-between">
+              <div>
+                <span class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Burst All Pages Into ZIP</span>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Save every individual page of this PDF as a separate numbered PDF file packed inside a single ZIP archive.</p>
+              </div>
+              <button type="button" id="pdfSplitAllZipBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white transition-colors">
+                <i class="fa-solid fa-file-zipper mr-1.5"></i>Split Every Page into ZIP
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const dropZone = document.getElementById('pdfSplitDropZone');
+      const input = document.getElementById('pdfSplitInput');
+      dropZone.addEventListener('click', () => input.click());
+      setupDragAndDrop(dropZone, files => { if (files[0]) loadPdfForSplit(files[0]); });
+      input.addEventListener('change', e => { if (e.target.files[0]) loadPdfForSplit(e.target.files[0]); });
+
+      document.getElementById('pdfExtractRangeBtn').addEventListener('click', extractPdfRange);
+      document.getElementById('pdfSplitAllZipBtn').addEventListener('click', splitAllPdfPagesToZip);
+    }
+
+    async function loadPdfForSplit(file) {
+      try {
+        const bytes = await file.arrayBuffer();
+        const doc = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+        appState.pdfSplitFile = { name: file.name, bytes };
+        appState.pdfSplitPageCount = doc.getPageCount();
+        document.getElementById('pdfSplitFileStatus').textContent = `${file.name} (${appState.pdfSplitPageCount} pages, ${formatBytes(file.size)})`;
+        document.getElementById('pdfSplitTotalPages').textContent = String(appState.pdfSplitPageCount);
+        document.getElementById('pdfSplitRangeInput').value = appState.pdfSplitPageCount >= 2 ? `1-2` : `1`;
+        document.getElementById('pdfSplitControls').classList.remove('hidden');
+        incrementStats(1, 0, 0);
+        showToast(`Loaded "${file.name}" (${appState.pdfSplitPageCount} pages)`);
+      } catch (err) {
+        showToast('Invalid PDF file', 'error');
+      }
+    }
+
+    function parsePageRanges(rangeStr, maxPages) {
+      const indices = new Set();
+      const parts = rangeStr.split(',').map(s => s.trim()).filter(Boolean);
+      for (const part of parts) {
+        if (part.includes('-')) {
+          const [startStr, endStr] = part.split('-');
+          const start = parseInt(startStr, 10);
+          const end = parseInt(endStr, 10);
+          if (!isNaN(start) && !isNaN(end)) {
+            for (let p = Math.min(start, end); p <= Math.max(start, end); p++) {
+              if (p >= 1 && p <= maxPages) indices.add(p - 1);
+            }
+          }
+        } else {
+          const p = parseInt(part, 10);
+          if (!isNaN(p) && p >= 1 && p <= maxPages) indices.add(p - 1);
+        }
+      }
+      return Array.from(indices).sort((a, b) => a - b);
+    }
+
+    async function extractPdfRange() {
+      if (!appState.pdfSplitFile) return;
+      const rangeStr = document.getElementById('pdfSplitRangeInput').value;
+      const pageIndices = parsePageRanges(rangeStr, appState.pdfSplitPageCount);
+      if (pageIndices.length === 0) {
+        showToast('Please enter valid page numbers between 1 and ' + appState.pdfSplitPageCount, 'error');
+        return;
+      }
+      try {
+        const srcDoc = await PDFLib.PDFDocument.load(appState.pdfSplitFile.bytes);
+        const outDoc = await PDFLib.PDFDocument.create();
+        const copied = await outDoc.copyPages(srcDoc, pageIndices);
+        copied.forEach(p => outDoc.addPage(p));
+        const outBytes = await outDoc.save();
+        triggerBlobDownload(new Blob([outBytes], { type: 'application/pdf' }), `Extracted_Pages_${Date.now()}.pdf`);
+        incrementStats(0, 1, 0);
+        showToast(`Extracted ${pageIndices.length} page(s) to PDF!`);
+      } catch (err) {
+        showToast('Extraction failed: ' + err.message, 'error');
+      }
+    }
+
+    async function splitAllPdfPagesToZip() {
+      if (!appState.pdfSplitFile) return;
+      try {
+        const srcDoc = await PDFLib.PDFDocument.load(appState.pdfSplitFile.bytes);
+        const zip = new JSZip();
+        const total = srcDoc.getPageCount();
+        for (let i = 0; i < total; i++) {
+          const singleDoc = await PDFLib.PDFDocument.create();
+          const [page] = await singleDoc.copyPages(srcDoc, [i]);
+          singleDoc.addPage(page);
+          const bytes = await singleDoc.save();
+          zip.file(`Page_${String(i + 1).padStart(2, '0')}.pdf`, bytes);
+        }
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        triggerBlobDownload(zipBlob, `Split_All_${total}_Pages.zip`);
+        incrementStats(0, 1, 0);
+        showToast(`Packed all ${total} pages into a ZIP archive!`);
+      } catch (err) {
+        showToast('ZIP split error: ' + err.message, 'error');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 3: IMAGES TO PDF CONVERTER
+    // -------------------------------------------------------------------------
+    function renderImgToPdfWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div id="imgToPdfDropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center hover:border-brand-emerald dark:hover:border-brand-gold transition-colors cursor-pointer bg-slate-50/60 dark:bg-slate-800/40">
+            <input type="file" id="imgToPdfInput" accept="image/*" multiple class="hidden" />
+            <div class="w-14 h-14 rounded-2xl bg-orange-100 dark:bg-orange-950/80 text-orange-600 dark:text-orange-400 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-images"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Drop JPG, PNG or WebP images here</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Combine multiple photos or scanned pages into a clean A4 or Letter PDF.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Page Size</label>
+              <select id="imgPdfPageSize" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold">
+                <option value="A4">A4 Standard (210 x 297 mm)</option>
+                <option value="LETTER">US Letter</option>
+                <option value="FIT">Fit Exact Image Dimensions</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Orientation</label>
+              <select id="imgPdfOrientation" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold">
+                <option value="portrait">Portrait (Vertical)</option>
+                <option value="landscape">Landscape (Horizontal)</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <button type="button" id="imgToPdfBuildBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors disabled:opacity-40" disabled>
+                <i class="fa-solid fa-file-pdf mr-1.5"></i>Generate PDF (<span id="imgToPdfCount" class="ltr-num" dir="ltr">0</span>)
+              </button>
+            </div>
+          </div>
+
+          <div id="imgToPdfPreviewGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+        </div>
+      `;
+
+      const dropZone = document.getElementById('imgToPdfDropZone');
+      const input = document.getElementById('imgToPdfInput');
+      dropZone.addEventListener('click', () => input.click());
+      setupDragAndDrop(dropZone, files => addImagesToPdfQueue(files));
+      input.addEventListener('change', e => addImagesToPdfQueue(e.target.files));
+      document.getElementById('imgToPdfBuildBtn').addEventListener('click', buildPdfFromImages);
+      renderImgToPdfQueue();
+    }
+
+    function addImagesToPdfQueue(fileList) {
+      if (!fileList) return;
+      Array.from(fileList).forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+          appState.imgToPdfList.push({
+            name: file.name,
+            dataUrl: e.target.result
+          });
+          incrementStats(1, 0, 0);
+          renderImgToPdfQueue();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderImgToPdfQueue() {
+      const grid = document.getElementById('imgToPdfPreviewGrid');
+      const countEl = document.getElementById('imgToPdfCount');
+      const btn = document.getElementById('imgToPdfBuildBtn');
+      if (!grid) return;
+
+      countEl.textContent = String(appState.imgToPdfList.length);
+      btn.disabled = appState.imgToPdfList.length === 0;
+      grid.innerHTML = '';
+
+      appState.imgToPdfList.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 p-2 space-y-1.5';
+        card.innerHTML = `
+          <img src="${item.dataUrl}" alt="${item.name}" class="w-full h-32 object-cover rounded-lg" />
+          <div class="flex items-center justify-between text-[11px] px-1">
+            <span class="font-bold truncate">Page ${idx + 1}</span>
+            <button type="button" data-rm-imgpdf="${idx}" class="text-rose-600 hover:underline">Remove</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      grid.querySelectorAll('[data-rm-imgpdf]').forEach(b => {
+        b.addEventListener('click', () => {
+          const i = Number(b.getAttribute('data-rm-imgpdf'));
+          appState.imgToPdfList.splice(i, 1);
+          renderImgToPdfQueue();
+        });
+      });
+    }
+
+    async function buildPdfFromImages() {
+      if (appState.imgToPdfList.length === 0) return;
+      try {
+        const { PDFDocument } = PDFLib;
+        const pdfDoc = await PDFDocument.create();
+        const pageSizeMode = document.getElementById('imgPdfPageSize').value;
+        const orientation = document.getElementById('imgPdfOrientation').value;
+
+        for (const item of appState.imgToPdfList) {
+          // Convert any image to PNG bytes via offscreen canvas for universal compatibility
+          const img = await loadImageElement(item.dataUrl);
+          const c = document.createElement('canvas');
+          c.width = img.naturalWidth || img.width;
+          c.height = img.naturalHeight || img.height;
+          c.getContext('2d').drawImage(img, 0, 0);
+          const pngDataUrl = c.toDataURL('image/png');
+          const pngBytes = await fetch(pngDataUrl).then(r => r.arrayBuffer());
+          const embeddedImg = await pdfDoc.embedPng(pngBytes);
+
+          let pw = 595.28, ph = 841.89;
+          if (pageSizeMode === 'LETTER') { pw = 612; ph = 792; }
+          if (orientation === 'landscape') { const tmp = pw; pw = ph; ph = tmp; }
+
+          if (pageSizeMode === 'FIT') {
+            const page = pdfDoc.addPage([c.width, c.height]);
+            page.drawImage(embeddedImg, { x: 0, y: 0, width: c.width, height: c.height });
+          } else {
+            const page = pdfDoc.addPage([pw, ph]);
+            const margin = 28;
+            const availW = pw - margin * 2;
+            const availH = ph - margin * 2;
+            const scale = Math.min(availW / c.width, availH / c.height);
+            const drawW = c.width * scale;
+            const drawH = c.height * scale;
+            page.drawImage(embeddedImg, {
+              x: (pw - drawW) / 2,
+              y: (ph - drawH) / 2,
+              width: drawW,
+              height: drawH
+            });
+          }
+        }
+        const pdfBytes = await pdfDoc.save();
+        triggerBlobDownload(new Blob([pdfBytes], { type: 'application/pdf' }), `Images_to_PDF_${Date.now()}.pdf`);
+        incrementStats(0, 1, 0);
+        showToast('Converted images to PDF!');
+      } catch (err) {
+        showToast('Failed to build PDF: ' + err.message, 'error');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 4: STAMP & WATERMARK PDF
+    // -------------------------------------------------------------------------
+    function renderPdfWatermarkWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div id="pdfWmDropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center hover:border-brand-emerald dark:hover:border-brand-gold transition-colors cursor-pointer bg-slate-50/60 dark:bg-slate-800/40">
+            <input type="file" id="pdfWmInput" accept="application/pdf" class="hidden" />
+            <div class="w-14 h-14 rounded-2xl bg-pink-100 dark:bg-pink-950/80 text-pink-600 dark:text-pink-400 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-stamp"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Select a PDF to add Watermark &amp; Page Numbers</h3>
+            <p id="pdfWmStatus" class="text-xs text-slate-500 dark:text-slate-400 mt-1">No PDF loaded yet.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Watermark Stamp Text</label>
+              <input type="text" id="pdfWmText" value="AL GHADEER VERIFIED" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-bold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Page Number Footer</label>
+              <select id="pdfWmPageNumMode" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold">
+                <option value="yes">Add "Page X of Y" Footer</option>
+                <option value="no">Watermark Only (No Page Numbers)</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <button type="button" id="pdfWmApplyBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors disabled:opacity-40" disabled>
+                <i class="fa-solid fa-download mr-1.5"></i>Stamp &amp; Download PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const dropZone = document.getElementById('pdfWmDropZone');
+      const input = document.getElementById('pdfWmInput');
+      dropZone.addEventListener('click', () => input.click());
+      setupDragAndDrop(dropZone, files => { if (files[0]) loadPdfForWatermark(files[0]); });
+      input.addEventListener('change', e => { if (e.target.files[0]) loadPdfForWatermark(e.target.files[0]); });
+      document.getElementById('pdfWmApplyBtn').addEventListener('click', applyPdfWatermark);
+    }
+
+    async function loadPdfForWatermark(file) {
+      try {
+        const bytes = await file.arrayBuffer();
+        const doc = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+        appState.pdfWatermarkFile = { name: file.name, bytes };
+        appState.pdfWatermarkPageCount = doc.getPageCount();
+        document.getElementById('pdfWmStatus').textContent = `${file.name} (${appState.pdfWatermarkPageCount} pages loaded)`;
+        document.getElementById('pdfWmApplyBtn').disabled = false;
+        incrementStats(1, 0, 0);
+        showToast(`Loaded "${file.name}" for stamping`);
+      } catch (e) {
+        showToast('Invalid PDF file', 'error');
+      }
+    }
+
+    async function applyPdfWatermark() {
+      if (!appState.pdfWatermarkFile) return;
+      try {
+        const { PDFDocument, StandardFonts, rgb, degrees } = PDFLib;
+        const pdfDoc = await PDFDocument.load(appState.pdfWatermarkFile.bytes);
+        const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+        const wmText = (document.getElementById('pdfWmText').value || 'CONFIDENTIAL').trim();
+        const addNums = document.getElementById('pdfWmPageNumMode').value === 'yes';
+
+        const pages = pdfDoc.getPages();
+        pages.forEach((page, i) => {
+          const { width, height } = page.getSize();
+          if (wmText) {
+            page.drawText(wmText, {
+              x: width * 0.18,
+              y: height * 0.42,
+              size: 36,
+              font,
+              color: rgb(0.012, 0.278, 0.149),
+              opacity: 0.16,
+              rotate: degrees(32)
+            });
+          }
+          if (addNums) {
+            page.drawText(`Page ${i + 1} of ${pages.length}`, {
+              x: width / 2 - 35,
+              y: 22,
+              size: 10,
+              font,
+              color: rgb(0.35, 0.38, 0.42)
+            });
+          }
+        });
+
+        const outBytes = await pdfDoc.save();
+        triggerBlobDownload(new Blob([outBytes], { type: 'application/pdf' }), `Stamped_${appState.pdfWatermarkFile.name}`);
+        incrementStats(0, 1, 0);
+        showToast('Watermark & page numbers applied!');
+      } catch (err) {
+        showToast('Failed to stamp PDF: ' + err.message, 'error');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 5: SMART IMAGE COMPRESSOR
+    // -------------------------------------------------------------------------
+    function renderImgCompressWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div id="imgCompressDropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center hover:border-brand-emerald dark:hover:border-brand-gold transition-colors cursor-pointer bg-slate-50/60 dark:bg-slate-800/40">
+            <input type="file" id="imgCompressInput" accept="image/*" class="hidden" />
+            <div class="w-14 h-14 rounded-2xl bg-sky-100 dark:bg-sky-950/80 text-sky-600 dark:text-sky-400 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-compress"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Upload an Image to Compress</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Adjust quality &amp; scale with live Before/After size comparison.</p>
+          </div>
+
+          <div id="imgCompressPanel" class="hidden space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
+              <div>
+                <div class="flex justify-between text-xs font-bold mb-1">
+                  <span>Compression Quality</span>
+                  <span id="compressQualityVal" class="text-brand-emerald dark:text-brand-gold ltr-num" dir="ltr">70%</span>
+                </div>
+                <input type="range" id="compressQualitySlider" min="15" max="95" value="70" class="w-full accent-brand-emerald" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Output Format</label>
+                <select id="compressFormatSelect" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold">
+                  <option value="image/jpeg">JPEG (Best for Photos)</option>
+                  <option value="image/webp">WebP (Smallest Web Size)</option>
+                </select>
+              </div>
+              <div class="flex items-end">
+                <button type="button" id="downloadCompressedBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors">
+                  <i class="fa-solid fa-download mr-1.5"></i>Download Compressed Image
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+              <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <span class="text-xs text-slate-500 block">Original Size</span>
+                <span id="origImgSizeText" class="text-base font-extrabold font-mono ltr-num" dir="ltr">0 KB</span>
+              </div>
+              <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800">
+                <span class="text-xs text-emerald-700 dark:text-emerald-300 block">Compressed Size</span>
+                <span id="newImgSizeText" class="text-base font-extrabold font-mono text-brand-emerald dark:text-brand-gold ltr-num" dir="ltr">0 KB</span>
+              </div>
+              <div class="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800">
+                <span class="text-xs text-amber-800 dark:text-amber-300 block">Reduction</span>
+                <span id="savedPercentText" class="text-base font-extrabold font-mono text-amber-700 dark:text-amber-400 ltr-num" dir="ltr">0%</span>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-3 bg-slate-100 dark:bg-slate-950 text-center">
+              <img id="compressPreviewImg" alt="Compressed Preview" class="max-h-80 max-w-full h-auto mx-auto rounded-lg shadow-sm" />
+            </div>
+          </div>
+        </div>
+      `;
+
+      const dropZone = document.getElementById('imgCompressDropZone');
+      const input = document.getElementById('imgCompressInput');
+      dropZone.addEventListener('click', () => input.click());
+      setupDragAndDrop(dropZone, files => { if (files[0]) loadFileForCompression(files[0]); });
+      input.addEventListener('change', e => { if (e.target.files[0]) loadFileForCompression(e.target.files[0]); });
+
+      document.getElementById('compressQualitySlider').addEventListener('input', updateCompressionPreview);
+      document.getElementById('compressFormatSelect').addEventListener('change', updateCompressionPreview);
+      document.getElementById('downloadCompressedBtn').addEventListener('click', () => {
+        if (!appState.compressResultBlob) return;
+        const ext = document.getElementById('compressFormatSelect').value === 'image/webp' ? 'webp' : 'jpg';
+        const savedBytes = Math.max(0, (appState.compressOriginalFile?.size || 0) - appState.compressResultBlob.size);
+        triggerBlobDownload(appState.compressResultBlob, `Compressed_${Date.now()}.${ext}`);
+        incrementStats(0, 1, savedBytes);
+        showToast('Downloaded compressed image!');
+      });
+    }
+
+    function loadFileForCompression(file) {
+      if (!file.type.startsWith('image/')) {
+        showToast('Please select a valid image file', 'error');
+        return;
+      }
+      appState.compressOriginalFile = file;
+      const reader = new FileReader();
+      reader.onload = async e => {
+        appState.compressOriginalImg = await loadImageElement(e.target.result);
+        document.getElementById('imgCompressPanel').classList.remove('hidden');
+        incrementStats(1, 0, 0);
+        updateCompressionPreview();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateCompressionPreview() {
+      if (!appState.compressOriginalImg || !appState.compressOriginalFile) return;
+      const quality = Number(document.getElementById('compressQualitySlider').value) / 100;
+      const mime = document.getElementById('compressFormatSelect').value;
+      document.getElementById('compressQualityVal').textContent = Math.round(quality * 100) + '%';
+
+      const canvas = document.createElement('canvas');
+      canvas.width = appState.compressOriginalImg.naturalWidth || appState.compressOriginalImg.width;
+      canvas.height = appState.compressOriginalImg.naturalHeight || appState.compressOriginalImg.height;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(appState.compressOriginalImg, 0, 0);
+
+      canvas.toBlob(blob => {
+        if (!blob) return;
+        appState.compressResultBlob = blob;
+        const origSize = appState.compressOriginalFile.size;
+        const newSize = blob.size;
+        const pct = origSize > 0 ? Math.max(0, Math.round((1 - newSize / origSize) * 100)) : 0;
+
+        document.getElementById('origImgSizeText').textContent = formatBytes(origSize);
+        document.getElementById('newImgSizeText').textContent = formatBytes(newSize);
+        document.getElementById('savedPercentText').textContent = pct + '% Saved';
+        document.getElementById('compressPreviewImg').src = URL.createObjectURL(blob);
+      }, mime, quality);
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 6: UNIVERSAL IMAGE FORMAT CONVERTER
+    // -------------------------------------------------------------------------
+    function renderImgConvertWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div id="imgConvertDropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center hover:border-brand-emerald dark:hover:border-brand-gold transition-colors cursor-pointer bg-slate-50/60 dark:bg-slate-800/40">
+            <input type="file" id="imgConvertInput" accept="image/*" class="hidden" />
+            <div class="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Drop Image to Convert Format (PNG, JPG, WebP)</h3>
+            <p id="imgConvertStatus" class="text-xs text-slate-500 dark:text-slate-400 mt-1">No image selected yet.</p>
+          </div>
+
+          <div id="imgConvertControls" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <div>
+              <label class="block text-xs font-bold mb-1">Target Format</label>
+              <select id="targetImgFormat" class="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-bold">
+                <option value="image/png">PNG (Lossless / Transparent)</option>
+                <option value="image/jpeg">JPEG (Standard Photo)</option>
+                <option value="image/webp">WebP (Modern High-Efficiency)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">Dimensions</label>
+              <p id="convertDimReadout" class="px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono ltr-num" dir="ltr">-</p>
+            </div>
+            <div class="flex items-end">
+              <button type="button" id="execImgConvertBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors">
+                <i class="fa-solid fa-download mr-1.5"></i>Convert &amp; Download
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const dropZone = document.getElementById('imgConvertDropZone');
+      const input = document.getElementById('imgConvertInput');
+      dropZone.addEventListener('click', () => input.click());
+      setupDragAndDrop(dropZone, files => { if (files[0]) loadImgForConversion(files[0]); });
+      input.addEventListener('change', e => { if (e.target.files[0]) loadImgForConversion(e.target.files[0]); });
+      document.getElementById('execImgConvertBtn').addEventListener('click', executeImageFormatConvert);
+    }
+
+    function loadImgForConversion(file) {
+      if (!file.type.startsWith('image/')) return;
+      appState.convertOriginalFile = file;
+      const reader = new FileReader();
+      reader.onload = async e => {
+        const img = await loadImageElement(e.target.result);
+        appState.convertOriginalImg = img;
+        document.getElementById('imgConvertStatus').textContent = `Loaded: ${file.name} (${formatBytes(file.size)})`;
+        document.getElementById('convertDimReadout').textContent = `${img.naturalWidth} x ${img.naturalHeight} px`;
+        document.getElementById('imgConvertControls').classList.remove('hidden');
+        incrementStats(1, 0, 0);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function executeImageFormatConvert() {
+      if (!appState.convertOriginalImg) return;
+      const mime = document.getElementById('targetImgFormat').value;
+      const ext = mime === 'image/png' ? 'png' : mime === 'image/webp' ? 'webp' : 'jpg';
+      const canvas = document.createElement('canvas');
+      canvas.width = appState.convertOriginalImg.naturalWidth;
+      canvas.height = appState.convertOriginalImg.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      if (mime === 'image/jpeg') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      ctx.drawImage(appState.convertOriginalImg, 0, 0);
+      canvas.toBlob(blob => {
+        if (!blob) return;
+        triggerBlobDownload(blob, `Converted_${Date.now()}.${ext}`);
+        incrementStats(0, 1, 0);
+        showToast(`Converted image to .${ext.toUpperCase()}!`);
+      }, mime, 0.92);
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 7: IMAGE RESIZER & PASSPORT/CNIC PRESETS
+    // -------------------------------------------------------------------------
+    function renderImgResizeWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div id="imgResizeDropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center hover:border-brand-emerald dark:hover:border-brand-gold transition-colors cursor-pointer bg-slate-50/60 dark:bg-slate-800/40">
+            <input type="file" id="imgResizeInput" accept="image/*" class="hidden" />
+            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-crop-simple"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Select an Image to Resize</h3>
+            <p id="imgResizeStatus" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Choose custom pixels or 1-click Passport / HD presets.</p>
+          </div>
+
+          <div id="imgResizePanel" class="hidden space-y-4 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            <div class="flex flex-wrap gap-2">
+              <button type="button" data-preset-wh="413x531" class="preset-wh-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-brand-emerald">Passport Size (413 x 531 px)</button>
+              <button type="button" data-preset-wh="600x600" class="preset-wh-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-brand-emerald">Square 1:1 (600 x 600 px)</button>
+              <button type="button" data-preset-wh="1012x638" class="preset-wh-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-brand-emerald">ID Card Standard (1012 x 638 px)</button>
+              <button type="button" data-preset-wh="1920x1080" class="preset-wh-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-brand-emerald">Full HD (1920 x 1080 px)</button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              <div>
+                <label class="block text-xs font-bold mb-1">Width (px)</label>
+                <input type="number" id="resizeWidthInput" min="16" max="6000" value="800" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm font-mono ltr-num" dir="ltr" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Height (px)</label>
+                <input type="number" id="resizeHeightInput" min="16" max="6000" value="600" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm font-mono ltr-num" dir="ltr" />
+              </div>
+              <div class="flex items-end">
+                <button type="button" id="execResizeBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors">
+                  <i class="fa-solid fa-download mr-1.5"></i>Resize &amp; Download PNG
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const dropZone = document.getElementById('imgResizeDropZone');
+      const input = document.getElementById('imgResizeInput');
+      dropZone.addEventListener('click', () => input.click());
+      setupDragAndDrop(dropZone, files => { if (files[0]) loadImgForResize(files[0]); });
+      input.addEventListener('change', e => { if (e.target.files[0]) loadImgForResize(e.target.files[0]); });
+
+      container.querySelectorAll('.preset-wh-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const [w, h] = btn.getAttribute('data-preset-wh').split('x');
+          document.getElementById('resizeWidthInput').value = w;
+          document.getElementById('resizeHeightInput').value = h;
+        });
+      });
+
+      document.getElementById('execResizeBtn').addEventListener('click', () => {
+        if (!appState.resizeOriginalImg) return;
+        const w = Math.max(16, parseInt(document.getElementById('resizeWidthInput').value, 10) || 400);
+        const h = Math.max(16, parseInt(document.getElementById('resizeHeightInput').value, 10) || 400);
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(appState.resizeOriginalImg, 0, 0, w, h);
+        canvas.toBlob(blob => {
+          if (!blob) return;
+          triggerBlobDownload(blob, `Resized_${w}x${h}.png`);
+          incrementStats(0, 1, 0);
+          showToast(`Resized image to ${w}x${h} px!`);
+        }, 'image/png');
+      });
+    }
+
+    function loadImgForResize(file) {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = async e => {
+        const img = await loadImageElement(e.target.result);
+        appState.resizeOriginalImg = img;
+        document.getElementById('resizeWidthInput').value = img.naturalWidth;
+        document.getElementById('resizeHeightInput').value = img.naturalHeight;
+        document.getElementById('imgResizeStatus').textContent = `${file.name} (Original: ${img.naturalWidth} x ${img.naturalHeight} px)`;
+        document.getElementById('imgResizePanel').classList.remove('hidden');
+        incrementStats(1, 0, 0);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 8: DOCSCAN B&W LASER ENHANCER
+    // -------------------------------------------------------------------------
+    function renderImgDocScanWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div id="docscanDropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center hover:border-brand-emerald dark:hover:border-brand-gold transition-colors cursor-pointer bg-slate-50/60 dark:bg-slate-800/40">
+            <input type="file" id="docscanInput" accept="image/*" class="hidden" />
+            <div class="w-14 h-14 rounded-2xl bg-teal-100 dark:bg-teal-950/80 text-teal-600 dark:text-teal-400 mx-auto flex items-center justify-center text-2xl mb-3">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Upload Dark / Shadowy Document or CNIC Photo</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Automatically strips gray camera shadows into pure white laser-ready Black &amp; White.</p>
+          </div>
+
+          <div id="docscanPanel" class="hidden space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+              <div>
+                <div class="flex justify-between text-xs font-bold mb-1">
+                  <span>B&amp;W Threshold Cutoff</span>
+                  <span id="docscanThreshVal" class="ltr-num" dir="ltr">165</span>
+                </div>
+                <input type="range" id="docscanThreshSlider" min="80" max="230" value="165" class="w-full accent-brand-emerald" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Scan Mode</label>
+                <select id="docscanModeSelect" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold">
+                  <option value="bw">Pure Laser B&amp;W (High Contrast)</option>
+                  <option value="gray">Clean Grayscale</option>
+                </select>
+              </div>
+              <div class="flex items-end">
+                <button type="button" id="docscanDownloadBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors">
+                  <i class="fa-solid fa-download mr-1.5"></i>Download Clean Scan PNG
+                </button>
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-4 bg-slate-100 dark:bg-slate-950 text-center">
+              <canvas id="docscanCanvas" class="max-h-96 max-w-full h-auto mx-auto rounded-lg shadow-sm bg-white"></canvas>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const dropZone = document.getElementById('docscanDropZone');
+      const input = document.getElementById('docscanInput');
+      dropZone.addEventListener('click', () => input.click());
+      setupDragAndDrop(dropZone, files => { if (files[0]) loadDocScanImage(files[0]); });
+      input.addEventListener('change', e => { if (e.target.files[0]) loadDocScanImage(e.target.files[0]); });
+
+      document.getElementById('docscanThreshSlider').addEventListener('input', processDocScanCanvas);
+      document.getElementById('docscanModeSelect').addEventListener('change', processDocScanCanvas);
+      document.getElementById('docscanDownloadBtn').addEventListener('click', () => {
+        const canvas = document.getElementById('docscanCanvas');
+        canvas.toBlob(blob => {
+          if (!blob) return;
+          triggerBlobDownload(blob, `DocScan_Clean_${Date.now()}.png`);
+          incrementStats(0, 1, 0);
+          showToast('Clean B&W scan downloaded!');
+        }, 'image/png');
+      });
+    }
+
+    function loadDocScanImage(file) {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = async e => {
+        appState.docscanOriginalImg = await loadImageElement(e.target.result);
+        document.getElementById('docscanPanel').classList.remove('hidden');
+        incrementStats(1, 0, 0);
+        processDocScanCanvas();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function processDocScanCanvas() {
+      const img = appState.docscanOriginalImg;
+      if (!img) return;
+      const thresh = Number(document.getElementById('docscanThreshSlider').value);
+      const mode = document.getElementById('docscanModeSelect').value;
+      document.getElementById('docscanThreshVal').textContent = String(thresh);
+
+      const canvas = document.getElementById('docscanCanvas');
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const d = imgData.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+        if (mode === 'bw') {
+          const v = lum >= thresh ? 255 : 0;
+          d[i] = d[i + 1] = d[i + 2] = v;
+        } else {
+          const stretched = Math.min(255, Math.max(0, (lum - 40) * 1.35));
+          d[i] = d[i + 1] = d[i + 2] = stretched;
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 9: QR CODE & VCARD STUDIO
+    // -------------------------------------------------------------------------
+    function renderQrStudioWorkspace(container) {
+      container.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold mb-1">QR Content Type</label>
+                <select id="qrTypeSelect" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold">
+                  <option value="url">Website URL / Text</option>
+                  <option value="whatsapp">WhatsApp Direct Chat Link</option>
+                  <option value="vcard">Business Contact Card (vCard)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Foreground Color</label>
+                <select id="qrColorSelect" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold">
+                  <option value="#034726">Al Ghadeer Emerald (#034726)</option>
+                  <option value="#000000">Classic Pure Black (#000000)</option>
+                  <option value="#1e3a8a">Royal Navy (#1e3a8a)</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="qrInputFields" class="space-y-3">
+              <label class="block text-xs font-bold">Enter URL or Text</label>
+              <input type="text" id="qrPrimaryInput" value="https://alghadeer.com" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-sm font-mono ltr-num" dir="ltr" />
+            </div>
+
+            <button type="button" id="qrGenerateBtn" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors">
+              <i class="fa-solid fa-qrcode mr-1.5"></i>Update QR Code
+            </button>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center space-y-4">
+            <div id="qrCanvasHolder" class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200"></div>
+            <button type="button" id="qrDownloadBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white transition-colors">
+              <i class="fa-solid fa-download mr-1.5"></i>Download QR PNG
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('qrTypeSelect').addEventListener('change', e => {
+        const mode = e.target.value;
+        const input = document.getElementById('qrPrimaryInput');
+        if (mode === 'whatsapp') input.value = 'https://wa.me/923287892826?text=Assalam-o-Alaikum';
+        else if (mode === 'vcard') input.value = 'BEGIN:VCARD\nVERSION:3.0\nFN:Junaid Ali\nORG:AL GHADEER DIGITAL SERVICES (SMC-PRIVATE) LIMITED\nTEL:+923287892826\nEND:VCARD';
+        else input.value = 'https://alghadeer.com';
+        generateQrGraphic();
+      });
+
+      document.getElementById('qrColorSelect').addEventListener('change', generateQrGraphic);
+      document.getElementById('qrGenerateBtn').addEventListener('click', () => {
+        incrementStats(1, 0, 0);
+        generateQrGraphic();
+        showToast('QR Code updated!');
+      });
+
+      document.getElementById('qrDownloadBtn').addEventListener('click', () => {
+        const holder = document.getElementById('qrCanvasHolder');
+        const canvas = holder.querySelector('canvas');
+        if (canvas) {
+          canvas.toBlob(blob => {
+            if (!blob) return;
+            triggerBlobDownload(blob, `AlGhadeer_QR_${Date.now()}.png`);
+            incrementStats(0, 1, 0);
+            showToast('QR PNG downloaded!');
+          });
+        }
+      });
+
+      generateQrGraphic();
+    }
+
+    function generateQrGraphic() {
+      const holder = document.getElementById('qrCanvasHolder');
+      if (!holder) return;
+      holder.innerHTML = '';
+      const text = document.getElementById('qrPrimaryInput').value.trim() || 'https://alghadeer.com';
+      const colorDark = document.getElementById('qrColorSelect').value || '#034726';
+      new QRCode(holder, {
+        text,
+        width: 200,
+        height: 200,
+        colorDark,
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 10: CSV <-> JSON CONVERTER
+    // -------------------------------------------------------------------------
+    function renderCsvJsonWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-5">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">Input (CSV or JSON)</label>
+              <textarea id="csvJsonInputArea" rows="10" placeholder="Paste CSV rows or JSON array here..." class="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-xs ltr-num" dir="ltr">id,service,city,fee_pkr
+1,SECP Incorporation,Chowk Azam,15000
+2,FBR Income Tax Return,Layyah,3500
+3,Custom Web App Suite,Multan Road,25000</textarea>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">Converted Output</label>
+              <textarea id="csvJsonOutputArea" rows="10" readonly class="w-full p-3.5 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 font-mono text-xs ltr-num" dir="ltr"></textarea>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <button type="button" id="btnCsvToJson" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white">
+              <i class="fa-solid fa-code mr-1.5"></i>Convert CSV to JSON
+            </button>
+            <button type="button" id="btnJsonToCsv" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white">
+              <i class="fa-solid fa-table mr-1.5"></i>Convert JSON to CSV
+            </button>
+            <button type="button" id="btnCopyConvertedData" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+              <i class="fa-solid fa-copy mr-1.5"></i>Copy Output
+            </button>
+            <button type="button" id="btnDownloadConvertedData" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-800 text-white">
+              <i class="fa-solid fa-download mr-1.5"></i>Download File
+            </button>
+          </div>
+        </div>
+      `;
+
+      const convertCsvToJson = () => {
+        const raw = document.getElementById('csvJsonInputArea').value.trim();
+        if (!raw) return;
+        const lines = raw.split(/\r?\n/).filter(Boolean);
+        if (lines.length < 2) {
+          showToast('Need at least a header row and 1 data row', 'error');
+          return;
+        }
+        const headers = lines[0].split(',').map(h => h.trim());
+        const arr = lines.slice(1).map(line => {
+          const vals = line.split(',').map(v => v.trim());
+          const obj = {};
+          headers.forEach((h, i) => { obj[h] = vals[i] !== undefined ? vals[i] : ''; });
+          return obj;
+        });
+        document.getElementById('csvJsonOutputArea').value = JSON.stringify(arr, null, 2);
+        incrementStats(1, 0, 0);
+      };
+
+      const convertJsonToCsv = () => {
+        try {
+          const raw = document.getElementById('csvJsonInputArea').value.trim();
+          const arr = JSON.parse(raw);
+          if (!Array.isArray(arr) || arr.length === 0) throw new Error('Input must be a non-empty JSON array');
+          const headers = Object.keys(arr[0]);
+          const csvRows = [headers.join(',')];
+          arr.forEach(row => {
+            csvRows.push(headers.map(h => String(row[h] ?? '').replace(/,/g, ' ')).join(','));
+          });
+          document.getElementById('csvJsonOutputArea').value = csvRows.join('\n');
+          incrementStats(1, 0, 0);
+          showToast('Converted JSON to CSV!');
+        } catch (err) {
+          showToast('Invalid JSON array: ' + err.message, 'error');
+        }
+      };
+
+      document.getElementById('btnCsvToJson').addEventListener('click', () => {
+        convertCsvToJson();
+        showToast('Converted CSV to JSON!');
+      });
+      document.getElementById('btnJsonToCsv').addEventListener('click', convertJsonToCsv);
+      document.getElementById('btnCopyConvertedData').addEventListener('click', () => {
+        const out = document.getElementById('csvJsonOutputArea');
+        out.select();
+        document.execCommand('copy');
+        showToast('Copied to clipboard!');
+      });
+      document.getElementById('btnDownloadConvertedData').addEventListener('click', () => {
+        const val = document.getElementById('csvJsonOutputArea').value;
+        if (!val) return;
+        const isJson = val.trim().startsWith('[');
+        const blob = new Blob([val], { type: isJson ? 'application/json' : 'text/csv' });
+        triggerBlobDownload(blob, `Converted_Data_${Date.now()}.${isJson ? 'json' : 'csv'}`);
+        incrementStats(0, 1, 0);
+      });
+
+      convertCsvToJson();
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 11: ZIP ARCHIVE CREATOR & EXTRACTOR
+    // -------------------------------------------------------------------------
+    function renderZipToolWorkspace(container) {
+      container.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-4">
+            <h3 class="text-sm font-extrabold flex items-center gap-2">
+              <i class="fa-solid fa-box-archive text-purple-600"></i>
+              <span>Create New ZIP Archive</span>
+            </h3>
+            <input type="file" id="zipAddFilesInput" multiple class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-emerald file:text-white cursor-pointer" />
+            <div id="zipCreateListBox" class="space-y-2 max-h-48 overflow-y-auto text-xs"></div>
+            <button type="button" id="buildZipArchiveBtn" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-emerald hover:bg-brand-emeraldLight text-white disabled:opacity-40" disabled>
+              <i class="fa-solid fa-download mr-1.5"></i>Pack &amp; Download .ZIP
+            </button>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-4">
+            <h3 class="text-sm font-extrabold flex items-center gap-2">
+              <i class="fa-solid fa-folder-open text-amber-600"></i>
+              <span>Inspect &amp; Extract Existing .ZIP</span>
+            </h3>
+            <input type="file" id="zipInspectInput" accept=".zip,application/zip" class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white cursor-pointer" />
+            <div id="zipExtractListBox" class="space-y-2 max-h-60 overflow-y-auto text-xs">
+              <p class="text-slate-400">Select any .zip file to view and download its contents.</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('zipAddFilesInput').addEventListener('change', e => {
+        Array.from(e.target.files || []).forEach(f => {
+          appState.zipCreateList.push(f);
+          incrementStats(1, 0, 0);
+        });
+        renderZipCreateQueue();
+      });
+
+      document.getElementById('buildZipArchiveBtn').addEventListener('click', async () => {
+        if (appState.zipCreateList.length === 0) return;
+        const zip = new JSZip();
+        appState.zipCreateList.forEach(f => zip.file(f.name, f));
+        const blob = await zip.generateAsync({ type: 'blob' });
+        triggerBlobDownload(blob, `AlGhadeer_Bundle_${Date.now()}.zip`);
+        incrementStats(0, 1, 0);
+        showToast('ZIP archive created & downloaded!');
+      });
+
+      document.getElementById('zipInspectInput').addEventListener('change', async e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        try {
+          const zip = await JSZip.loadAsync(file);
+          const listBox = document.getElementById('zipExtractListBox');
+          listBox.innerHTML = '';
+          incrementStats(1, 0, 0);
+          Object.keys(zip.files).forEach(filename => {
+            const entry = zip.files[filename];
+            if (entry.dir) return;
+            const row = document.createElement('div');
+            row.className = 'flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700';
+            row.innerHTML = `<span class="truncate font-mono">${filename}</span>`;
+            const dlBtn = document.createElement('button');
+            dlBtn.type = 'button';
+            dlBtn.className = 'px-2.5 py-1 rounded bg-purple-600 text-white font-bold text-[11px] shrink-0';
+            dlBtn.textContent = 'Extract';
+            dlBtn.addEventListener('click', async () => {
+              const blob = await entry.async('blob');
+              triggerBlobDownload(blob, filename.split('/').pop());
+              incrementStats(0, 1, 0);
+            });
+            row.appendChild(dlBtn);
+            listBox.appendChild(row);
+          });
+        } catch (err) {
+          showToast('Could not read ZIP archive', 'error');
+        }
+      });
+
+      renderZipCreateQueue();
+    }
+
+    function renderZipCreateQueue() {
+      const box = document.getElementById('zipCreateListBox');
+      const btn = document.getElementById('buildZipArchiveBtn');
+      if (!box) return;
+      btn.disabled = appState.zipCreateList.length === 0;
+      if (appState.zipCreateList.length === 0) {
+        box.innerHTML = `<p class="text-slate-400">No files added yet.</p>`;
+        return;
+      }
+      box.innerHTML = appState.zipCreateList.map((f, i) => `
+        <div class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <span class="truncate font-medium">${i + 1}. ${f.name}</span>
+          <span class="font-mono text-[11px] text-slate-400 ltr-num" dir="ltr">${formatBytes(f.size)}</span>
+        </div>
+      `).join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // TOOL 12: TEXT, WORD COUNTER, CASE CONVERTER & HASH/PASSWORD PRO
+    // -------------------------------------------------------------------------
+    function renderTextStudioWorkspace(container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+              <span class="text-[11px] text-slate-500 block">Words</span>
+              <span id="txtStatWords" class="text-lg font-extrabold font-mono ltr-num" dir="ltr">0</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+              <span class="text-[11px] text-slate-500 block">Characters</span>
+              <span id="txtStatChars" class="text-lg font-extrabold font-mono ltr-num" dir="ltr">0</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+              <span class="text-[11px] text-slate-500 block">Lines</span>
+              <span id="txtStatLines" class="text-lg font-extrabold font-mono ltr-num" dir="ltr">0</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+              <span class="text-[11px] text-slate-500 block">Reading Time</span>
+              <span id="txtStatRead" class="text-lg font-extrabold font-mono ltr-num" dir="ltr">0 sec</span>
+            </div>
+          </div>
+
+          <textarea id="textStudioArea" rows="7" placeholder="Type or paste text here to analyze, transform case, remove duplicate lines, or hash..." class="w-full p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-sm"></textarea>
+
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-txt-op="upper" class="txt-op-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-800 hover:bg-brand-emerald hover:text-white transition-colors">UPPERCASE</button>
+            <button type="button" data-txt-op="lower" class="txt-op-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-800 hover:bg-brand-emerald hover:text-white transition-colors">lowercase</button>
+            <button type="button" data-txt-op="title" class="txt-op-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-800 hover:bg-brand-emerald hover:text-white transition-colors">Title Case</button>
+            <button type="button" data-txt-op="dedup" class="txt-op-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-800 hover:bg-brand-emerald hover:text-white transition-colors">Remove Duplicate Lines</button>
+            <button type="button" id="genSecurePassBtn" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-emerald text-white hover:bg-brand-emeraldLight transition-colors">
+              <i class="fa-solid fa-key mr-1"></i>Generate Secure Password
+            </button>
+            <button type="button" id="copyTextStudioBtn" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors">
+              <i class="fa-solid fa-copy mr-1"></i>Copy Text
+            </button>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+            <span class="text-[11px] font-bold uppercase text-slate-500 block mb-1">Live SHA-256 Checksum Hash</span>
+            <code id="txtSha256Output" class="text-xs font-mono break-all text-brand-emerald dark:text-brand-gold ltr-num" dir="ltr">-</code>
+          </div>
+        </div>
+      `;
+
+      const area = document.getElementById('textStudioArea');
+      const updateMetrics = async () => {
+        const val = area.value;
+        const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+        const chars = val.length;
+        const lines = val ? val.split(/\r?\n/).length : 0;
+        const readSec = Math.ceil((words / 200) * 60);
+
+        document.getElementById('txtStatWords').textContent = String(words);
+        document.getElementById('txtStatChars').textContent = String(chars);
+        document.getElementById('txtStatLines').textContent = String(lines);
+        document.getElementById('txtStatRead').textContent = readSec + ' sec';
+
+        if (val && window.crypto && window.crypto.subtle) {
+          const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+          const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+          document.getElementById('txtSha256Output').textContent = hex;
+        } else {
+          document.getElementById('txtSha256Output').textContent = '-';
+        }
+      };
+
+      area.addEventListener('input', updateMetrics);
+
+      container.querySelectorAll('.txt-op-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const op = btn.getAttribute('data-txt-op');
+          if (op === 'upper') area.value = area.value.toUpperCase();
+          if (op === 'lower') area.value = area.value.toLowerCase();
+          if (op === 'title') {
+            area.value = area.value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+          }
+          if (op === 'dedup') {
+            const unique = Array.from(new Set(area.value.split(/\r?\n/)));
+            area.value = unique.join('\n');
+          }
+          incrementStats(1, 0, 0);
+          updateMetrics();
+        });
+      });
+
+      document.getElementById('genSecurePassBtn').addEventListener('click', () => {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*';
+        let pass = '';
+        for (let i = 0; i < 20; i++) {
+          pass += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        area.value = pass;
+        incrementStats(1, 0, 0);
+        updateMetrics();
+        showToast('Generated 20-character strong password!');
+      });
+
+      document.getElementById('copyTextStudioBtn').addEventListener('click', () => {
+        area.select();
+        document.execCommand('copy');
+        showToast('Copied text!');
+      });
+    }
+
+    // =========================================================================
+    // 6. HELPERS & GLOBAL EVENT BINDINGS
+    // =========================================================================
+    function loadImageElement(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    function setupDragAndDrop(zoneEl, onFilesDropped) {
+      if (!zoneEl) return;
+      ['dragenter', 'dragover'].forEach(evt => {
+        zoneEl.addEventListener(evt, e => {
+          e.preventDefault();
+          e.stopPropagation();
+          zoneEl.classList.add('drop-zone-active');
+        });
+      });
+      ['dragleave', 'drop'].forEach(evt => {
+        zoneEl.addEventListener(evt, e => {
+          e.preventDefault();
+          e.stopPropagation();
+          zoneEl.classList.remove('drop-zone-active');
+        });
+      });
+      zoneEl.addEventListener('drop', e => {
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          onFilesDropped(e.dataTransfer.files);
+        }
+      });
+    }
+
+    async function handleLoadSampleForActiveTool() {
+      const id = appState.activeToolId;
+      if (!id) return;
+
+      if (id === 'pdf-merge') {
+        const b1 = await createSamplePdfBytes('Al Ghadeer Invoice Sample A', 2);
+        const b2 = await createSamplePdfBytes('Al Ghadeer Report Sample B', 3);
+        const f1 = new File([b1], 'Sample_Document_A.pdf', { type: 'application/pdf' });
+        const f2 = new File([b2], 'Sample_Document_B.pdf', { type: 'application/pdf' });
+        await addPdfFilesToMergeQueue([f1, f2]);
+        showToast('Loaded 2 sample PDFs into Merge Queue!');
+      } else if (id === 'pdf-split') {
+        const bytes = await createSamplePdfBytes('Multi-Page Official Booklet', 4);
+        const file = new File([bytes], 'Sample_4_Pages.pdf', { type: 'application/pdf' });
+        await loadPdfForSplit(file);
+      } else if (id === 'img-to-pdf') {
+        const d1 = createSampleCanvasImageDataUrl('SAMPLE PAGE 1 — COVER');
+        const d2 = createSampleCanvasImageDataUrl('SAMPLE PAGE 2 — ANNEXURE');
+        addImagesToPdfQueue([dataURLtoFile(d1, 'Page_1.png'), dataURLtoFile(d2, 'Page_2.png')]);
+        showToast('Loaded 2 sample images for PDF conversion!');
+      } else if (id === 'pdf-watermark') {
+        const bytes = await createSamplePdfBytes('Official Certificate Draft', 3);
+        const file = new File([bytes], 'Certificate_Draft.pdf', { type: 'application/pdf' });
+        await loadPdfForWatermark(file);
+      } else if (id === 'img-compress') {
+        const d = createSampleCanvasImageDataUrl('HIGH-RES COMPRESSION TEST');
+        loadFileForCompression(dataURLtoFile(d, 'Sample_HighRes_Banner.png'));
+        showToast('Loaded sample image for compression!');
+      } else if (id === 'img-convert') {
+        const d = createSampleCanvasImageDataUrl('FORMAT CONVERTER TEST');
+        loadImgForConversion(dataURLtoFile(d, 'Sample_Graphic.png'));
+        showToast('Loaded sample image for format conversion!');
+      } else if (id === 'img-resize') {
+        const d = createSampleCanvasImageDataUrl('RESIZE & PRESET TEST');
+        loadImgForResize(dataURLtoFile(d, 'Sample_Photo.png'));
+        showToast('Loaded sample image for resizing!');
+      } else if (id === 'img-docscan') {
+        const d = createSampleCanvasImageDataUrl('DOCSCAN TEST', true);
+        loadDocScanImage(dataURLtoFile(d, 'Shadowy_Camera_Doc.png'));
+        showToast('Loaded simulated shadowy document photo!');
+      } else if (id === 'qr-studio') {
+        document.getElementById('qrPrimaryInput').value = 'https://wa.me/923287892826?text=Al%20Ghadeer%20Digital%20Services';
+        generateQrGraphic();
+        showToast('Loaded sample WhatsApp QR code!');
+      } else if (id === 'csv-json') {
+        document.getElementById('btnCsvToJson').click();
+      } else if (id === 'zip-tool') {
+        const sampleFile1 = new File(['Al Ghadeer Sample Readme Content'], 'README_AlGhadeer.txt', { type: 'text/plain' });
+        const sampleFile2 = new File([JSON.stringify({ company: 'AL GHADEER DIGITAL SERVICES (SMC-PRIVATE) LIMITED', status: 'Active' }, null, 2)], 'company_info.json', { type: 'application/json' });
+        appState.zipCreateList.push(sampleFile1, sampleFile2);
+        renderZipCreateQueue();
+        showToast('Added 2 sample files to ZIP queue!');
+      } else if (id === 'text-studio') {
+        const area = document.getElementById('textStudioArea');
+        area.value = 'AL GHADEER DIGITAL SERVICES (SMC-PRIVATE) LIMITED provides enterprise software development, web applications, and digital tools from Multan Road, Chowk Azam.';
+        area.dispatchEvent(new Event('input'));
+        showToast('Loaded sample text for analysis!');
+      }
+    }
+
+    function resetActiveToolState() {
+      appState.pdfMergeList = [];
+      appState.pdfSplitFile = null;
+      appState.imgToPdfList = [];
+      appState.pdfWatermarkFile = null;
+      appState.compressOriginalFile = null;
+      appState.compressOriginalImg = null;
+      appState.convertOriginalImg = null;
+      appState.resizeOriginalImg = null;
+      appState.docscanOriginalImg = null;
+      appState.zipCreateList = [];
+      if (appState.activeToolId) {
+        renderActiveToolBody(appState.activeToolId);
+        showToast('Workspace cleared', 'info');
+      }
+    }
+
+    function updateThemeIcon() {
+      const icon = document.getElementById('themeIcon');
+      if (!icon) return;
+      icon.className = appState.darkMode ? 'fa-solid fa-sun text-sm text-brand-gold' : 'fa-solid fa-moon text-sm';
+    }
+
+    // Initialize DOM Listeners
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedStats();
+      renderToolsGrid();
+
+      // Search Input
+      const searchInput = document.getElementById('toolSearchInput');
+      const clearBtn = document.getElementById('clearSearchBtn');
+      searchInput.addEventListener('input', e => {
+        appState.searchQuery = e.target.value;
+        clearBtn.classList.toggle('hidden', !appState.searchQuery);
+        renderToolsGrid();
+      });
+      clearBtn.addEventListener('click', () => {
+        appState.searchQuery = '';
+        searchInput.value = '';
+        clearBtn.classList.add('hidden');
+        renderToolsGrid();
+      });
+
+      document.getElementById('resetFilterBtn').addEventListener('click', () => {
+        appState.searchQuery = '';
+        searchInput.value = '';
+        clearBtn.classList.add('hidden');
+        setCategoryFilter('all');
+      });
+
+      // Category Nav & Pills
+      document.querySelectorAll('[data-cat-nav]').forEach(btn => {
+        btn.addEventListener('click', () => setCategoryFilter(btn.getAttribute('data-cat-nav')));
+      });
+      document.querySelectorAll('[data-cat-pill]').forEach(btn => {
+        btn.addEventListener('click', () => setCategoryFilter(btn.getAttribute('data-cat-pill')));
+      });
+
+      // Navigation & Workspace controls
+      document.getElementById('navHomeBrandBtn').addEventListener('click', returnToDashboard);
+      document.getElementById('backToDashboardBtn').addEventListener('click', returnToDashboard);
+      document.getElementById('loadSampleBtn').addEventListener('click', handleLoadSampleForActiveTool);
+      document.getElementById('resetToolWorkspaceBtn').addEventListener('click', resetActiveToolState);
+
+      // Reset Stats
+      document.getElementById('resetStatsBtn').addEventListener('click', () => {
+        appState.stats = { filesProcessed: 0, downloadsCreated: 0, bytesSaved: 0 };
+        saveStats();
+        showToast('Session statistics reset to 0', 'info');
+      });
+
+      // Theme Toggle
+      document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        appState.darkMode = !appState.darkMode;
+        document.documentElement.classList.toggle('dark', appState.darkMode);
+        try {
+          localStorage.setItem('ag_omnitools_theme', appState.darkMode ? 'dark' : 'light');
+        } catch (e) {}
+        updateThemeIcon();
+      });
+
+      // Deploy Guide Modal
+      const deployModal = document.getElementById('deployModal');
+      document.getElementById('openDeployGuideBtn').addEventListener('click', () => deployModal.classList.remove('hidden'));
+      document.getElementById('closeDeployModalBtn').addEventListener('click', () => deployModal.classList.add('hidden'));
+      document.getElementById('ackDeployModalBtn').addEventListener('click', () => deployModal.classList.add('hidden'));
+    });
+  </script>
+</body>
+</html>
